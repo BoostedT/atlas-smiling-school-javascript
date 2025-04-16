@@ -104,3 +104,52 @@ $(document).ready(function () {
     });
   });
 });
+
+// Latest videos
+$(document).ready(function () {
+  const $loader = $('#latest-loader');
+  const $carousel = $('#latest-carousel');
+
+  $.get('https://smileschool-api.hbtn.info/latest-videos', function (data) {
+    const cards = data.map(video => `
+      <div>
+        <div class="card mx-2">
+          <img src="${video.thumb_url}" class="card-img-top" alt="${video.title}">
+          <div class="card-img-overlay text-center">
+            <img src="images/play.png" alt="Play" width="64px" class="play-overlay">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title font-weight-bold">${video.title}</h5>
+            <p class="card-text text-muted">${video['sub-title']}</p>
+            <div class="creator d-flex align-items-center">
+              <img src="${video.author_pic_url}" alt="${video.author}" width="30" class="rounded-circle">
+              <h6 class="pl-2 m-0 main-color">${video.author}</h6>
+            </div>
+            <div class="info pt-3 d-flex justify-content-between">
+              <div class="rating">
+                ${'<img src="images/star_on.png" width="15">'.repeat(video.star)}
+                ${'<img src="images/star_off.png" width="15">'.repeat(5 - video.star)}
+              </div>
+              <span class="main-color">${video.duration}</span>
+            </div>
+          </div>
+        </div>
+      </div>`);
+
+    $loader.remove();
+    $carousel.removeClass('d-none').html(cards.join(''));
+
+    if ($carousel.hasClass('slick-initialized')) $carousel.slick('unslick');
+
+    $carousel.slick({
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      infinite: true,
+      arrows: true,
+      responsive: [
+        { breakpoint: 992, settings: { slidesToShow: 2 }},
+        { breakpoint: 768, settings: { slidesToShow: 1 }}
+      ]
+    });
+  });
+});
