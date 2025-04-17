@@ -147,9 +147,51 @@ $(document).ready(function () {
       infinite: true,
       arrows: true,
       responsive: [
-        { breakpoint: 992, settings: { slidesToShow: 2 }},
-        { breakpoint: 768, settings: { slidesToShow: 1 }}
+        { breakpoint: 992, settings: { slidesToShow: 2 } },
+        { breakpoint: 768, settings: { slidesToShow: 1 } }
       ]
     });
   });
+});
+// pricing html page
+$(document).ready(function () {
+  const carouselInner = $(".carousel-inner");
+
+  // Loader while fetching quotes
+  carouselInner.html(`
+      <div id="quotes-loader" class="d-flex justify-content-center align-items-center" style="height: 300px;">
+        <div class="spinner-border text-light" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    `);
+
+  $.get("https://smileschool-api.hbtn.info/quotes")
+    .done(function (quotes) {
+      carouselInner.empty(); // Remove loader
+
+      quotes.forEach((quote, index) => {
+        const isActive = index === 0 ? "active" : "";
+        const item = `
+            <div class="carousel-item ${isActive}">
+              <div class="row mx-auto align-items-center">
+                <div class="col-12 col-sm-2 col-lg-2 offset-lg-1 text-center">
+                  <img src="${quote.pic_url}" class="d-block align-self-center rounded-circle" alt="${quote.name}" />
+                </div>
+                <div class="col-12 col-sm-7 offset-sm-2 col-lg-9 offset-lg-0">
+                  <div class="quote-text">
+                    <p class="text-white">« ${quote.text} »</p>
+                    <h4 class="text-white font-weight-bold">${quote.name}</h4>
+                    <span class="text-white">${quote.title}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        carouselInner.append(item);
+      });
+    })
+    .fail(function () {
+      carouselInner.html('<p class="text-white text-center">Failed to load quotes. Please try again later.</p>');
+    });
 });
