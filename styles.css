@@ -1056,3 +1056,25 @@
   position: relative;
   overflow: visible;
 }
+.spinner-border.smile-spinner {
+  width: 5em !important;
+  height: 5em !important;
+  border-width: 10px !important;
+  border-color: rgba(255, 255, 255, 0) !important;
+  border-top-color: #c271ff !important;
+  border-radius: 50%;
+  animation: spin 1s linear infinite !important;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.smile-loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  width: 100%;
+}
