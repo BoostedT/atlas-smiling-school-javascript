@@ -1145,3 +1145,23 @@
     transform: rotate(360deg);
   }
 }
+#pricing-loader {
+  display: none;
+  
+#carouselExampleControls {
+  position: relative;
+}
+
+.arrow-left,
+.arrow-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;   
+  height: 40px;
+  z-index: 5;
+}
+
+.arrow-left { left: 15px; }
+.arrow-right { right: 15px; }
+}
